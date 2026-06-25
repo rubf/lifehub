@@ -86,6 +86,7 @@ export type ViewId =
   | "goals"
   | "journal"
   | "calendar"
+  | "game"
   | "templates"
   | "settings";
 

@@ -159,3 +159,73 @@ body {
 .sheen:hover::after {
   transform: translateX(120%);
 }
+
+
+/* ---- Minigame / screamer ---- */
+
+@keyframes shake-hard {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-12px, 8px) rotate(-3deg);
+  }
+  20% {
+    transform: translate(14px, -10px) rotate(3deg);
+  }
+  30% {
+    transform: translate(-16px, -6px) rotate(-4deg);
+  }
+  40% {
+    transform: translate(12px, 12px) rotate(2deg);
+  }
+  50% {
+    transform: translate(-10px, 6px) rotate(-2deg);
+  }
+  60% {
+    transform: translate(14px, -12px) rotate(4deg);
+  }
+  70% {
+    transform: translate(-14px, 10px) rotate(-3deg);
+  }
+  80% {
+    transform: translate(10px, -8px) rotate(2deg);
+  }
+  90% {
+    transform: translate(-8px, 6px) rotate(-1deg);
+  }
+}
+
+.animate-shake {
+  animation: shake-hard 0.4s linear infinite;
+}
+
+@keyframes flash-bg {
+  0%,
+  100% {
+    background-color: rgb(127 29 29);
+  }
+  50% {
+    background-color: rgb(0 0 0);
+  }
+}
+
+.animate-flash {
+  animation: flash-bg 0.18s steps(1) infinite;
+}
+
+@keyframes zoom-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-zoom-burst {
+  animation: zoom-burst 0.12s ease-out both;
+}

@@ -15,6 +15,7 @@ import {
   TasksIcon,
   TemplatesIcon,
   HeartIcon,
+  GameIcon,
 } from "./icons";
 
 import Dashboard from "./views/Dashboard";
@@ -24,6 +25,7 @@ import Finance from "./views/Finance";
 import Goals from "./views/Goals";
 import Journal from "./views/Journal";
 import Calendar from "./views/Calendar";
+import Game from "./views/Game";
 import Templates from "./views/Templates";
 import Settings from "./views/Settings";
 import PremiumGate from "./PremiumGate";
@@ -42,6 +44,7 @@ const NAV: NavItem[] = [
   { id: "goals", label: "Metas", icon: GoalsIcon },
   { id: "journal", label: "Diario", icon: JournalIcon },
   { id: "calendar", label: "Calendario", icon: CalendarIcon },
+  { id: "game", label: "Juego", icon: GameIcon },
   { id: "templates", label: "Plantillas", icon: TemplatesIcon },
   { id: "settings", label: "Ajustes", icon: SettingsIcon },
 ];
@@ -80,6 +83,8 @@ function Shell() {
         return <Journal />;
       case "calendar":
         return <Calendar />;
+      case "game":
+        return <Game />;
       case "templates":
         return <Templates />;
       case "settings":

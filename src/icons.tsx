@@ -187,3 +187,11 @@ export const ChevronRightIcon = (p: IconProps) => (
     <path d="M9 18l6-6-6-6" />
   </svg>
 );
+
+export const GameIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M6 11h4M8 9v4" />
+    <path d="M15 12h.01M18 10h.01" />
+    <rect x="2" y="6" width="20" height="12" rx="4" />
+  </svg>
+);
