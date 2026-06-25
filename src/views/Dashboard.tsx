@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useApp } from "../store";
 import type { ViewId } from "../types";
 import { Card, ProgressBar, Tilt } from "../ui";
@@ -20,7 +20,7 @@ import {
 } from "../lib/utils";
 
 export default function Dashboard({ go }: { go: (v: ViewId) => void }) {
-  const { state, toggleTask } = useApp();
+  const { state, toggleTask, setProfileName } = useApp();
   const today = todayISO();
   const month = currentMonthKey();
 
@@ -67,6 +67,8 @@ export default function Dashboard({ go }: { go: (v: ViewId) => void }) {
           })}
         </p>
       </div>
+
+      {!state.profileName && <NameSetup onSave={setProfileName} />}
 
       {isEmpty && (
         <Card className="overflow-hidden">
@@ -238,5 +240,49 @@ function StatCard({
         <p className="truncate text-xs text-slate-500 dark:text-slate-400">{label}</p>
       </button>
     </Tilt>
+  );
+}
+
+
+function NameSetup({ onSave }: { onSave: (name: string) => void }) {
+  const [name, setName] = useState("");
+
+  function save() {
+    const clean = name.trim();
+    if (clean) onSave(clean);
+  }
+
+  return (
+    <Card className="overflow-hidden">
+      <div className="bg-gradient-to-br from-violet-500 to-indigo-600 p-6 text-white">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">👋</span>
+          <div>
+            <h2 className="text-lg font-semibold">¡Te damos la bienvenida a LifeHub!</h2>
+            <p className="text-sm text-white/85">
+              ¿Cómo te llamas? Así podré saludarte cada vez que entres.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <input
+            autoFocus
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && save()}
+            placeholder="Escribe tu nombre"
+            maxLength={40}
+            className="flex-1 rounded-xl border-0 bg-white/95 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-white"
+          />
+          <button
+            onClick={save}
+            disabled={!name.trim()}
+            className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-indigo-700 shadow-sm transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </Card>
   );
 }

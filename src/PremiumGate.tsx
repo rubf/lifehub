@@ -4,6 +4,7 @@ import { cx } from "./lib/utils";
 
 const SHOW_AFTER_MS = 40_000; // aparece tras 40 s de uso
 const SKIP_AFTER_S = 5; // el botón "Saltar" se habilita tras 5 s
+const CLICKS_TO_SHOW = 7; // o tras 7 interacciones/clics, lo que ocurra antes
 const SESSION_KEY = "lifehub:premiumShown";
 
 type Phase = "hidden" | "premium" | "prank";
@@ -45,15 +46,34 @@ export default function PremiumGate() {
   const [processing, setProcessing] = useState(false);
   const timers = useRef<number[]>([]);
 
-  // Programar la aparición tras 40 s (solo una vez por sesión).
+  // Aparece tras 40 s de uso O tras 7 interacciones (lo que ocurra antes),
+  // y solo una vez por sesión.
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return;
-    const t = window.setTimeout(() => {
+
+    let shown = false;
+    let clicks = 0;
+    let timer = 0;
+
+    function cleanup() {
+      clearTimeout(timer);
+      window.removeEventListener("click", onClick);
+    }
+    function trigger() {
+      if (shown) return;
+      shown = true;
       sessionStorage.setItem(SESSION_KEY, "1");
       setPhase("premium");
-    }, SHOW_AFTER_MS);
-    timers.current.push(t);
-    return () => timers.current.forEach((id) => clearTimeout(id));
+      cleanup();
+    }
+    function onClick() {
+      clicks += 1;
+      if (clicks >= CLICKS_TO_SHOW) trigger();
+    }
+
+    timer = window.setTimeout(trigger, SHOW_AFTER_MS);
+    window.addEventListener("click", onClick);
+    return cleanup;
   }, []);
 
   // Cuenta atrás del botón "Saltar".
@@ -178,18 +198,27 @@ export default function PremiumGate() {
           </p>
 
           {/* Saltar (se habilita tras la cuenta atrás) */}
-          <div className="mt-3 text-center">
+          <div className="mt-4">
             <button
               onClick={reveal}
               disabled={!canSkip}
               className={cx(
-                "text-sm font-medium transition-colors",
+                "mx-auto flex w-full max-w-[14rem] items-center justify-center gap-1.5 rounded-xl border-2 px-4 py-2.5 text-sm font-semibold transition-all",
                 canSkip
-                  ? "text-slate-500 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-200"
-                  : "cursor-not-allowed text-slate-300 dark:text-slate-600"
+                  ? "border-slate-300 text-slate-600 hover:border-slate-400 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-500 dark:text-slate-200 dark:hover:bg-slate-700/50"
+                  : "cursor-not-allowed border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500"
               )}
             >
-              {canSkip ? "Saltar" : `Saltar (${count})`}
+              {canSkip ? (
+                "No, gracias · Saltar"
+              ) : (
+                <>
+                  Saltar disponible en
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-slate-200 px-1 text-xs font-bold text-slate-600 dark:bg-slate-600 dark:text-slate-100">
+                    {count}
+                  </span>
+                </>
+              )}
             </button>
           </div>
         </div>

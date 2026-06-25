@@ -14,6 +14,7 @@ import {
   SunIcon,
   TasksIcon,
   TemplatesIcon,
+  HeartIcon,
 } from "./icons";
 
 import Dashboard from "./views/Dashboard";
@@ -125,6 +126,12 @@ function Shell() {
           )}
           {state.theme === "dark" ? "Modo claro" : "Modo oscuro"}
         </button>
+
+        <p className="mt-3 flex items-center justify-center gap-1.5 px-3 text-xs text-slate-400">
+          Hecho con amor
+          <HeartIcon width={13} height={13} className="text-rose-500" />
+          por Rubén
+        </p>
       </aside>
 
       {/* Mobile top bar */}
@@ -148,6 +155,11 @@ function Shell() {
         <div className="mx-auto max-w-5xl animate-fade-in" key={view}>
           {render()}
         </div>
+        <p className="mx-auto mt-10 flex max-w-5xl items-center justify-center gap-1.5 text-xs text-slate-400 lg:hidden">
+          Hecho con amor
+          <HeartIcon width={13} height={13} className="text-rose-500" />
+          por Rubén
+        </p>
       </main>
 
       {/* Bottom nav (mobile) */}
