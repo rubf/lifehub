@@ -1,66 +1,78 @@
-# ✦ LifeHub — Organiza tu vida en un solo lugar
+# LifeHub
 
-LifeHub es una aplicación web para gestionar distintos aspectos de tu vida desde un único panel: tareas, hábitos, finanzas, metas, diario y un calendario que reúne todo lo que tiene fecha. Incluye **plantillas prediseñadas** para empezar en segundos.
+LifeHub es una aplicación web pensada para organizar distintos aspectos de la vida diaria desde un único lugar. La idea nació de querer dejar de saltar entre varias apps —una para tareas, otra para gastos, otra para hábitos— y reunir todo eso en un panel sencillo y agradable de usar.
 
-![Tech](https://img.shields.io/badge/React-18-61dafb) ![Tech](https://img.shields.io/badge/TypeScript-5-3178c6) ![Tech](https://img.shields.io/badge/Vite-6-646cff) ![Tech](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8)
+Incluye plantillas listas para empezar, de modo que no hay que configurar nada desde cero: eliges un perfil (por ejemplo "Estudiante" o "Finanzas") y la app se rellena con tareas, hábitos, presupuestos y metas razonables que luego puedes ajustar a tu gusto.
 
-## ✨ Características
+## Demo
 
-- **Inicio (Dashboard):** saludo según la hora, tarjetas-resumen y vista del día.
-- **Tareas:** prioridades, categorías, fechas límite, filtros y aviso de vencidas.
-- **Hábitos:** seguimiento semanal con cálculo de rachas y objetivo por semana.
-- **Finanzas:** ingresos/gastos, balance mensual y presupuestos por categoría.
-- **Metas:** objetivos medibles con progreso incremental.
-- **Diario:** registro de estado de ánimo y notas.
-- **Calendario:** vista mensual que agrega tareas, movimientos, diario y fechas límite de metas.
-- **Plantillas prediseñadas:** Estudiante, Freelancer, Bienestar, Finanzas 50/30/20, Hogar, Productividad, Viaje, Emprendimiento y Aprendizaje.
-- **Modo claro/oscuro**, diseño **responsive** y **persistencia local** (los datos se guardan en tu navegador, sin servidor).
+Versión en vivo: https://rubf.github.io/lifehub/
 
-## 🚀 Puesta en marcha
+(La demo se actualiza automáticamente con cada cambio publicado en la rama `main`.)
 
-Requisitos: [Node.js](https://nodejs.org/) 18 o superior.
+## Qué puedes hacer
+
+- **Inicio**: un resumen del día con saludo según la hora y accesos rápidos.
+- **Tareas**: con prioridades, categorías, fechas límite y aviso de tareas vencidas.
+- **Hábitos**: seguimiento semanal con rachas y un objetivo de días por semana.
+- **Finanzas**: ingresos, gastos, balance mensual y presupuestos por categoría.
+- **Metas**: objetivos medibles con progreso paso a paso.
+- **Diario**: un registro diario del estado de ánimo y notas personales.
+- **Calendario**: una vista mensual que reúne todo lo que tiene fecha (tareas, movimientos, entradas del diario y fechas límite de metas).
+- **Plantillas**: Estudiante, Profesional/Freelancer, Bienestar, Finanzas 50/30/20, Hogar, Productividad, Viaje, Emprendimiento y Aprendizaje.
+
+Tiene modo claro y oscuro, funciona bien en móvil y escritorio, y toda la información se guarda en el propio navegador (no se envía a ningún servidor).
+
+## Cómo ejecutarlo en tu computadora
+
+Necesitas tener instalado Node.js 18 o una versión más reciente.
 
 ```bash
-# 1. Instalar dependencias
+# 1. Instalar las dependencias
 npm install
 
 # 2. Arrancar el entorno de desarrollo
 npm run dev
-# Abre la URL que aparece en consola (por defecto http://localhost:5173)
 ```
 
-### Build de producción
+Después abre en el navegador la dirección que aparece en la consola (por defecto http://localhost:5173).
+
+Para generar la versión optimizada de producción:
 
 ```bash
-npm run build     # genera la carpeta dist/
-npm run preview   # sirve el build para previsualizarlo
+npm run build      # crea la carpeta dist/
+npm run preview    # sirve esa versión para revisarla
 ```
 
-## 🧱 Tecnologías
+## Cómo se publica la demo
 
-- **React 18** + **TypeScript** (modo estricto)
-- **Vite 6** como bundler y servidor de desarrollo
-- **Tailwind CSS 4** para los estilos
-- Estado global con React Context y persistencia en `localStorage`
+El repositorio incluye un flujo de GitHub Actions que compila el proyecto y lo publica en GitHub Pages cada vez que se actualiza la rama `main`. Para activarlo la primera vez hay que entrar en la configuración del repositorio, ir a la sección Pages y elegir "GitHub Actions" como origen.
 
-## 📁 Estructura del proyecto
+## Tecnologías
+
+- React 18 con TypeScript en modo estricto
+- Vite como empaquetador y servidor de desarrollo
+- Tailwind CSS para los estilos
+- Estado global con React Context y persistencia en el navegador mediante localStorage
+
+## Estructura del proyecto
 
 ```
 src/
-├─ App.tsx            # Layout, navegación y enrutado de vistas
-├─ store.tsx          # Estado global + persistencia en localStorage
-├─ types.ts           # Tipos del dominio
-├─ icons.tsx          # Iconos SVG
-├─ ui.tsx             # Componentes de interfaz reutilizables
-├─ lib/               # utilidades, colores y plantillas
-└─ views/             # Dashboard, Tasks, Habits, Finance, Goals,
-                      # Journal, Calendar, Templates, Settings
+  App.tsx            Distribución general, navegación y cambio de vistas
+  store.tsx          Estado global y guardado en localStorage
+  types.ts           Tipos de datos del proyecto
+  icons.tsx          Iconos en formato SVG
+  ui.tsx             Componentes de interfaz reutilizables
+  lib/               Utilidades, colores y definición de plantillas
+  views/             Inicio, Tareas, Hábitos, Finanzas, Metas,
+                     Diario, Calendario, Plantillas y Ajustes
 ```
 
-## 🙏 Agradecimientos
+## Agradecimientos
 
-El andamiaje y la implementación inicial de este proyecto se desarrollaron con la ayuda de **Kiro**, un asistente de desarrollo con IA. ¡Gracias por el apoyo en la construcción de LifeHub!
+La estructura inicial y buena parte de la implementación se desarrollaron con la ayuda de Kiro, un asistente de desarrollo basado en inteligencia artificial. Fue de gran ayuda para arrancar el proyecto con una base ordenada.
 
-## 📄 Licencia
+## Licencia
 
-Publicado bajo la licencia MIT. Puedes usarlo, modificarlo y distribuirlo libremente.
+Distribuido bajo la licencia MIT. Puedes usar, modificar y compartir el código libremente.
