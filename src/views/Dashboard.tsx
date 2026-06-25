@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useApp } from "../store";
 import type { ViewId } from "../types";
-import { Button, Card, ProgressBar } from "../ui";
+import { Card, ProgressBar } from "../ui";
 import {
   CheckIcon,
   FinanceIcon,
@@ -74,15 +74,16 @@ export default function Dashboard({ go }: { go: (v: ViewId) => void }) {
             <div>
               <h2 className="text-lg font-semibold">Empieza en segundos</h2>
               <p className="text-sm text-white/85">
-                Aplica una plantilla prediseñada y tendrás tareas, hábitos, presupuesto y metas listos.
+                Elige una plantilla y la app se rellena al instante con tareas,
+                hábitos, presupuestos y metas de ejemplo que luego puedes editar.
               </p>
             </div>
-            <Button
+            <button
               onClick={() => go("templates")}
-              className="flex-none bg-white text-indigo-600 hover:bg-white/90"
+              className="inline-flex flex-none items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition hover:bg-indigo-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-600"
             >
               <SparkleIcon width={16} height={16} /> Ver plantillas
-            </Button>
+            </button>
           </div>
         </Card>
       )}
