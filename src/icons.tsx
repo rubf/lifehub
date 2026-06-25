@@ -170,6 +170,12 @@ export const RocketIcon = (p: IconProps) => (
   </svg>
 );
 
+export const HeartIcon = (p: IconProps) => (
+  <svg {...base(p)} fill="currentColor" stroke="none">
+    <path d="M12 21s-7.5-4.6-10-9.3C.5 8.4 2.1 5 5.4 5c2 0 3.3 1.1 4.1 2.3l.5.7.5-.7C11.3 6.1 12.6 5 14.6 5 17.9 5 19.5 8.4 22 11.7 19.5 16.4 12 21 12 21Z" />
+  </svg>
+);
+
 export const ChevronLeftIcon = (p: IconProps) => (
   <svg {...base(p)}>
     <path d="M15 18l-6-6 6-6" />
