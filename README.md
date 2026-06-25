@@ -12,7 +12,7 @@ Versión en vivo: https://rubf.github.io/lifehub/
 
 ## Qué puedes hacer
 
-- **Inicio**: un resumen del día con saludo según la hora y accesos rápidos.
+- **Inicio**: la primera vez te pide tu nombre para saludarte de forma personalizada, y muestra un resumen del día con accesos rápidos.
 - **Tareas**: con prioridades, categorías, fechas límite y aviso de tareas vencidas.
 - **Hábitos**: seguimiento semanal con rachas y un objetivo de días por semana.
 - **Finanzas**: ingresos, gastos, balance mensual y presupuestos por categoría.
@@ -21,6 +21,7 @@ Versión en vivo: https://rubf.github.io/lifehub/
 - **Calendario**: una vista mensual que reúne todo lo que tiene fecha (tareas, movimientos, entradas del diario y fechas límite de metas), con selectores rápidos de mes y año.
 - **Plantillas**: Estudiante, Profesional/Freelancer, Bienestar, Finanzas 50/30/20, Hogar, Productividad, Viaje, Emprendimiento y Aprendizaje. Cada sección explica qué añade una plantilla al aplicarla.
 - **Copia de seguridad**: exporta todos tus datos a un archivo CSV y vuelve a importarlos cuando quieras, para conservarlos o llevarlos a otro equipo.
+- **Juego**: un minijuego de habilidad escondido, al estilo "el juego más difícil del mundo", para despejarte un rato... con alguna que otra sorpresa para quien llegue al final.
 
 Tiene modo claro y oscuro, un diseño cuidado con detalles interactivos y efectos 3D sutiles, funciona bien en móvil y escritorio, y toda la información se guarda en el propio navegador (no se envía a ningún servidor). Por cierto, esconde algún pequeño guiño para sacarte una sonrisa mientras lo usas.
 
@@ -64,11 +65,12 @@ src/
   PremiumGate.tsx    Detalle interactivo opcional que aparece durante el uso
   store.tsx          Estado global y guardado en localStorage
   types.ts           Tipos de datos del proyecto
+  vite-env.d.ts      Tipos del entorno de Vite
   icons.tsx          Iconos en formato SVG
   ui.tsx             Componentes de interfaz reutilizables (incluye el efecto 3D)
   lib/               Utilidades, colores, plantillas y exportación/importación CSV
-  views/             Inicio, Tareas, Hábitos, Finanzas, Metas,
-                     Diario, Calendario, Plantillas y Ajustes
+  views/             Inicio, Tareas, Hábitos, Finanzas, Metas, Diario,
+                     Calendario, Juego, Plantillas y Ajustes
 ```
 
 ## Agradecimientos
