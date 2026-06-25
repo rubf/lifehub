@@ -12,7 +12,7 @@ const GOAL_X = W - 44; // left edge of the green goal zone
 // If you want to use a real image for the "screamer", drop it in /public and
 // set its path here (e.g. "/job-application.jpg"). If empty, a built-in
 // meme-style graphic is shown instead (always works, no external links).
-const MEME_URL = "";
+const MEME_URL = "/job-application.jpg";
 
 type Phase = "idle" | "playing" | "screamer";
 
