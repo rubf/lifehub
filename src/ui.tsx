@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useRef,
   type ButtonHTMLAttributes,
   type ReactNode,
 } from "react";
@@ -237,5 +238,57 @@ export function Pill({
     >
       {children}
     </span>
+  );
+}
+
+
+/**
+ * Wraps content in a container that tilts in 3D following the mouse, giving an
+ * interactive, tactile feel. Falls back gracefully (no tilt) on touch devices.
+ */
+export function Tilt({
+  children,
+  className,
+  max = 9,
+  glare = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  max?: number;
+  glare?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    const rotateX = (0.5 - py) * max * 2;
+    const rotateY = (px - 0.5) * max * 2;
+    el.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(
+      2
+    )}deg) rotateY(${rotateY.toFixed(2)}deg) scale(1.02)`;
+    if (glare) {
+      el.style.setProperty("--glare-x", `${px * 100}%`);
+      el.style.setProperty("--glare-y", `${py * 100}%`);
+    }
+  }
+
+  function reset() {
+    const el = ref.current;
+    if (el) el.style.transform = "";
+  }
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      className={cx("tilt-3d", className)}
+    >
+      {children}
+    </div>
   );
 }

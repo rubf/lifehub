@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useApp } from "../store";
 import type { ViewId } from "../types";
-import { Card, ProgressBar } from "../ui";
+import { Card, ProgressBar, Tilt } from "../ui";
 import {
   CheckIcon,
   FinanceIcon,
@@ -219,23 +219,24 @@ function StatCard({
 }) {
   const c = colors(color);
   return (
-    <button
-      onClick={onClick}
-      className="rounded-2xl border border-slate-200/70 bg-white p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700/60 dark:bg-slate-800/60"
-    >
-      <div
-        className={cx(
-          "mb-3 flex h-9 w-9 items-center justify-center rounded-xl",
-          c.softBg,
-          c.text
-        )}
+    <Tilt max={10}>
+      <button
+        onClick={onClick}
+        className="group w-full rounded-2xl border border-slate-200/70 bg-white p-4 text-left transition-all hover:shadow-elevate dark:border-slate-700/60 dark:bg-slate-800/60"
       >
-        {icon}
-      </div>
-      <p className="truncate text-xl font-semibold text-slate-900 dark:text-white">
-        {value}
-      </p>
-      <p className="truncate text-xs text-slate-500 dark:text-slate-400">{label}</p>
-    </button>
+        <div
+          className={cx(
+            "mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm transition-transform group-hover:scale-110",
+            c.gradient
+          )}
+        >
+          {icon}
+        </div>
+        <p className="truncate text-xl font-semibold text-slate-900 dark:text-white">
+          {value}
+        </p>
+        <p className="truncate text-xs text-slate-500 dark:text-slate-400">{label}</p>
+      </button>
+    </Tilt>
   );
 }
