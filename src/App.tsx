@@ -25,6 +25,7 @@ import Journal from "./views/Journal";
 import Calendar from "./views/Calendar";
 import Templates from "./views/Templates";
 import Settings from "./views/Settings";
+import PremiumGate from "./PremiumGate";
 
 interface NavItem {
   id: ViewId;
@@ -171,6 +172,8 @@ function Shell() {
           );
         })}
       </nav>
+
+      <PremiumGate />
     </div>
   );
 }

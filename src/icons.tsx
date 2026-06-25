@@ -155,6 +155,21 @@ export const CalendarIcon = (p: IconProps) => (
   </svg>
 );
 
+export const CrownIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M3 7l4.5 4L12 5l4.5 6L21 7l-1.6 11.2A1 1 0 0 1 18.4 19H5.6a1 1 0 0 1-1-0.8L3 7Z" />
+    <path d="M3 7h.01M21 7h.01M12 5h.01" />
+  </svg>
+);
+
+export const RocketIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z" />
+    <path d="M12 15l-3-3a22 22 0 0 1 8-10c1.5 0 3 .5 4 1.5S22 6 22 7.5a22 22 0 0 1-10 8Z" />
+    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+  </svg>
+);
+
 export const ChevronLeftIcon = (p: IconProps) => (
   <svg {...base(p)}>
     <path d="M15 18l-6-6 6-6" />
