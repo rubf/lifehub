@@ -9,10 +9,13 @@ const PLAYER = 16;
 const SPEED = 2.7;
 const GOAL_X = W - 44; // left edge of the green goal zone
 
-// If you want to use a real image for the "screamer", drop it in /public and
-// set its path here (e.g. "/job-application.jpg"). If empty, a built-in
-// meme-style graphic is shown instead (always works, no external links).
-const MEME_URL = "/job-application.jpg";
+// Para usar una imagen real en el "screamer": ponla en la carpeta /public y
+// escribe aquí solo el nombre del archivo (p. ej. "job-application.jpg").
+// Déjalo en "" para usar el gráfico integrado.
+// Se antepone BASE_URL para que funcione en local ("/") y en GitHub Pages
+// ("/lifehub/"); por eso NO hay que poner la barra inicial.
+const MEME_FILE = "job-application.jpg";
+const MEME_URL = MEME_FILE ? import.meta.env.BASE_URL + MEME_FILE : "";
 
 type Phase = "idle" | "playing" | "screamer";
 
