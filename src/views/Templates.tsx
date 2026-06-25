@@ -12,8 +12,41 @@ export default function Templates() {
     <div>
       <SectionTitle
         title="Plantillas"
-        subtitle="Empieza con un plan listo: añade tareas, hábitos, presupuestos y metas con un clic"
+        subtitle="Un punto de partida listo para usar"
       />
+
+      <Card className="mb-6 p-5">
+        <h3 className="font-semibold text-slate-800 dark:text-slate-100">
+          ¿Qué es una plantilla y para qué sirve?
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          Una plantilla es un conjunto de elementos de ejemplo pensados para un
+          objetivo concreto (estudiar, controlar tus gastos, viajar...). Al pulsar
+          <span className="font-medium text-slate-800 dark:text-slate-100"> «Aplicar plantilla»</span>,
+          esos elementos se añaden automáticamente a las secciones correspondientes
+          de la app, para que no tengas que crear todo desde cero.
+        </p>
+        <ul className="mt-3 space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+          <li className="flex gap-2">
+            <span className="text-indigo-500">•</span>
+            Las tareas aparecen en <span className="font-medium">Tareas</span>, los
+            hábitos en <span className="font-medium">Hábitos</span>, etc.
+          </li>
+          <li className="flex gap-2">
+            <span className="text-indigo-500">•</span>
+            No borra nada de lo que ya tengas: <span className="font-medium">suma</span> los
+            nuevos elementos a los existentes.
+          </li>
+          <li className="flex gap-2">
+            <span className="text-indigo-500">•</span>
+            Todo es editable: puedes modificar o eliminar cualquier elemento después.
+          </li>
+        </ul>
+        <p className="mt-3 text-xs text-slate-400">
+          Los números de cada tarjeta (tareas, hábitos, presup., metas) indican
+          cuántos elementos añade esa plantilla.
+        </p>
+      </Card>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {TEMPLATES.map((tpl) => {

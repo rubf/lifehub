@@ -76,6 +76,8 @@ interface Store {
   deleteJournal: (id: string) => void;
   // templates
   applyTemplate: (templateId: string) => void;
+  // data import (e.g. from a CSV backup)
+  importData: (next: AppState) => void;
 }
 
 const StoreContext = createContext<Store | null>(null);
@@ -273,6 +275,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const importData = useCallback((next: AppState) => {
+    setState(next);
+  }, []);
+
   const value = useMemo<Store>(
     () => ({
       state,
@@ -296,6 +302,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       addJournal,
       deleteJournal,
       applyTemplate,
+      importData,
     }),
     [
       state,
@@ -319,6 +326,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       addJournal,
       deleteJournal,
       applyTemplate,
+      importData,
     ]
   );
 

@@ -65,6 +65,8 @@ const MONTH_NAMES = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 ];
 
+export const MONTHS = MONTH_NAMES;
+
 /** Human label for a month, e.g. "Junio 2026". */
 export function monthLabel(year: number, month: number): string {
   return `${MONTH_NAMES[month]} ${year}`;

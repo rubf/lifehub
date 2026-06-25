@@ -10,8 +10,8 @@ import {
   cx,
   formatDate,
   formatMoney,
-  monthLabel,
   monthMatrix,
+  MONTHS,
   todayISO,
 } from "../lib/utils";
 
@@ -96,6 +96,16 @@ export default function Calendar() {
 
   const monthPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
 
+  // Range of years to offer in the quick selector (5 back, 5 forward).
+  const baseYear = now.getFullYear();
+  const years = Array.from({ length: 11 }, (_, i) => baseYear - 5 + i);
+  // Make sure the currently shown year is always selectable.
+  if (!years.includes(year)) years.push(year);
+  years.sort((a, b) => a - b);
+
+  const selectCls =
+    "rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-600 dark:bg-slate-900/50 dark:text-white";
+
   return (
     <div>
       <SectionTitle
@@ -105,10 +115,33 @@ export default function Calendar() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_20rem]">
         <Card className="p-4 sm:p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-semibold capitalize text-slate-900 dark:text-white">
-              {monthLabel(year, month)}
-            </h3>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <select
+                aria-label="Mes"
+                className={selectCls}
+                value={month}
+                onChange={(e) => setMonth(Number(e.target.value))}
+              >
+                {MONTHS.map((name, i) => (
+                  <option key={name} value={i}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+              <select
+                aria-label="Año"
+                className={selectCls}
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+              >
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={goToday}
