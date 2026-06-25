@@ -1,11 +1,7 @@
 import { useMemo, useState } from "react";
 import { useApp } from "../store";
 import { Card, EmptyState, Pill, SectionTitle } from "../ui";
-import {
-  CalendarIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "../icons";
+import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from "../icons";
 import {
   cx,
   formatDate,
@@ -16,6 +12,12 @@ import {
 } from "../lib/utils";
 
 const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+const MONTHS_SHORT = [
+  "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
+];
+
+type View = "days" | "months" | "years";
 
 interface DayItem {
   kind: "task" | "tx" | "journal" | "goal";
@@ -32,6 +34,9 @@ export default function Calendar() {
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
   const [selected, setSelected] = useState(today);
+  const [view, setView] = useState<View>("days");
+  // Primer año del bloque de 12 que se muestra en la vista de años.
+  const [yearStart, setYearStart] = useState(now.getFullYear() - 5);
 
   // Build a map ISO date -> items for fast lookup.
   const byDate = useMemo(() => {
@@ -73,8 +78,9 @@ export default function Calendar() {
 
   const weeks = useMemo(() => monthMatrix(year, month), [year, month]);
   const selectedItems = byDate[selected] ?? [];
+  const monthPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
 
-  function shift(delta: number) {
+  function shiftMonth(delta: number) {
     let m = month + delta;
     let y = year;
     if (m < 0) {
@@ -92,19 +98,29 @@ export default function Calendar() {
     setYear(now.getFullYear());
     setMonth(now.getMonth());
     setSelected(today);
+    setView("days");
   }
 
-  const monthPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
+  function openYears() {
+    setYearStart(year - 5);
+    setView("years");
+  }
 
-  // Range of years to offer in the quick selector (5 back, 5 forward).
-  const baseYear = now.getFullYear();
-  const years = Array.from({ length: 11 }, (_, i) => baseYear - 5 + i);
-  // Make sure the currently shown year is always selectable.
-  if (!years.includes(year)) years.push(year);
-  years.sort((a, b) => a - b);
+  function prev() {
+    if (view === "days") shiftMonth(-1);
+    else if (view === "months") setYear((y) => y - 1);
+    else setYearStart((s) => s - 12);
+  }
+  function next() {
+    if (view === "days") shiftMonth(1);
+    else if (view === "months") setYear((y) => y + 1);
+    else setYearStart((s) => s + 12);
+  }
 
-  const selectCls =
-    "rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-slate-600 dark:bg-slate-900/50 dark:text-white";
+  const titleBtn =
+    "rounded-lg px-2.5 py-1.5 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700";
+  const gridCell =
+    "flex items-center justify-center rounded-xl py-4 text-sm font-medium transition-colors";
 
   return (
     <div>
@@ -115,33 +131,31 @@ export default function Calendar() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_20rem]">
         <Card className="p-4 sm:p-5">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <select
-                aria-label="Mes"
-                className={selectCls}
-                value={month}
-                onChange={(e) => setMonth(Number(e.target.value))}
-              >
-                {MONTHS.map((name, i) => (
-                  <option key={name} value={i}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-              <select
-                aria-label="Año"
-                className={selectCls}
-                value={year}
-                onChange={(e) => setYear(Number(e.target.value))}
-              >
-                {years.map((y) => (
-                  <option key={y} value={y}>
-                    {y}
-                  </option>
-                ))}
-              </select>
+          {/* Cabecera de navegación */}
+          <div className="mb-4 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1">
+              {view === "days" && (
+                <>
+                  <button onClick={() => setView("months")} className={titleBtn}>
+                    {MONTHS[month]}
+                  </button>
+                  <button onClick={openYears} className={titleBtn}>
+                    {year}
+                  </button>
+                </>
+              )}
+              {view === "months" && (
+                <button onClick={openYears} className={titleBtn}>
+                  {year}
+                </button>
+              )}
+              {view === "years" && (
+                <span className="px-2.5 py-1.5 text-sm font-semibold text-slate-800 dark:text-white">
+                  {yearStart} – {yearStart + 11}
+                </span>
+              )}
             </div>
+
             <div className="flex items-center gap-1">
               <button
                 onClick={goToday}
@@ -150,83 +164,147 @@ export default function Calendar() {
                 Hoy
               </button>
               <button
-                onClick={() => shift(-1)}
+                onClick={prev}
                 className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700"
-                aria-label="Mes anterior"
+                aria-label="Anterior"
               >
                 <ChevronLeftIcon width={18} height={18} />
               </button>
               <button
-                onClick={() => shift(1)}
+                onClick={next}
                 className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700"
-                aria-label="Mes siguiente"
+                aria-label="Siguiente"
               >
                 <ChevronRightIcon width={18} height={18} />
               </button>
             </div>
           </div>
 
-          <div className="mb-1 grid grid-cols-7 gap-1 text-center text-xs font-medium text-slate-400">
-            {WEEKDAYS.map((d) => (
-              <div key={d} className="py-1">
-                {d}
+          {/* Vista de días */}
+          {view === "days" && (
+            <>
+              <div className="mb-1 grid grid-cols-7 gap-1 text-center text-xs font-medium text-slate-400">
+                {WEEKDAYS.map((d) => (
+                  <div key={d} className="py-1">
+                    {d}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          <div className="grid grid-cols-7 gap-1">
-            {weeks.flat().map((iso) => {
-              const inMonth = iso.startsWith(monthPrefix);
-              const isToday = iso === today;
-              const isSelected = iso === selected;
-              const items = byDate[iso] ?? [];
-              const dayNum = Number(iso.slice(8, 10));
-              return (
-                <button
-                  key={iso}
-                  onClick={() => setSelected(iso)}
-                  className={cx(
-                    "flex aspect-square flex-col items-center justify-start rounded-xl p-1 text-sm transition-colors",
-                    !inMonth && "text-slate-300 dark:text-slate-600",
-                    inMonth && "text-slate-700 dark:text-slate-200",
-                    isSelected
-                      ? "bg-indigo-600 text-white"
-                      : "hover:bg-slate-100 dark:hover:bg-slate-700/60"
-                  )}
-                >
-                  <span
+              <div className="grid grid-cols-7 gap-1">
+                {weeks.flat().map((iso) => {
+                  const inMonth = iso.startsWith(monthPrefix);
+                  const isToday = iso === today;
+                  const isSelected = iso === selected;
+                  const items = byDate[iso] ?? [];
+                  const dayNum = Number(iso.slice(8, 10));
+                  return (
+                    <button
+                      key={iso}
+                      onClick={() => setSelected(iso)}
+                      className={cx(
+                        "flex aspect-square flex-col items-center justify-start rounded-xl p-1 text-sm transition-colors",
+                        !inMonth && "text-slate-300 dark:text-slate-600",
+                        inMonth && "text-slate-700 dark:text-slate-200",
+                        isSelected
+                          ? "bg-indigo-600 text-white"
+                          : "hover:bg-slate-100 dark:hover:bg-slate-700/60"
+                      )}
+                    >
+                      <span
+                        className={cx(
+                          "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium",
+                          isToday &&
+                            !isSelected &&
+                            "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300"
+                        )}
+                      >
+                        {dayNum}
+                      </span>
+                      {items.length > 0 && (
+                        <span className="mt-0.5 flex flex-wrap justify-center gap-0.5">
+                          {items.slice(0, 3).map((it, i) => (
+                            <span
+                              key={i}
+                              className={cx(
+                                "h-1.5 w-1.5 rounded-full",
+                                isSelected ? "bg-white/80" : dotColor(it.color)
+                              )}
+                            />
+                          ))}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400">
+                <Legend color="bg-indigo-500" label="Tareas" />
+                <Legend color="bg-emerald-500" label="Ingresos / hechas" />
+                <Legend color="bg-rose-500" label="Gastos" />
+                <Legend color="bg-violet-500" label="Diario" />
+                <Legend color="bg-amber-500" label="Metas" />
+              </div>
+            </>
+          )}
+
+          {/* Vista de meses */}
+          {view === "months" && (
+            <div className="grid grid-cols-3 gap-2">
+              {MONTHS_SHORT.map((name, i) => {
+                const isCurrent = i === month;
+                const isThisMonth =
+                  i === now.getMonth() && year === now.getFullYear();
+                return (
+                  <button
+                    key={name}
+                    onClick={() => {
+                      setMonth(i);
+                      setView("days");
+                    }}
                     className={cx(
-                      "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium",
-                      isToday && !isSelected && "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300"
+                      gridCell,
+                      isCurrent
+                        ? "bg-indigo-600 text-white"
+                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700/60",
+                      isThisMonth && !isCurrent && "ring-2 ring-indigo-400"
                     )}
                   >
-                    {dayNum}
-                  </span>
-                  {items.length > 0 && (
-                    <span className="mt-0.5 flex flex-wrap justify-center gap-0.5">
-                      {items.slice(0, 3).map((it, i) => (
-                        <span
-                          key={i}
-                          className={cx(
-                            "h-1.5 w-1.5 rounded-full",
-                            isSelected ? "bg-white/80" : dotColor(it.color)
-                          )}
-                        />
-                      ))}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-          <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400">
-            <Legend color="bg-indigo-500" label="Tareas" />
-            <Legend color="bg-emerald-500" label="Ingresos / hechas" />
-            <Legend color="bg-rose-500" label="Gastos" />
-            <Legend color="bg-violet-500" label="Diario" />
-            <Legend color="bg-amber-500" label="Metas" />
-          </div>
+          {/* Vista de años (bloques de 12) */}
+          {view === "years" && (
+            <div className="grid grid-cols-4 gap-2">
+              {Array.from({ length: 12 }, (_, idx) => yearStart + idx).map((y) => {
+                const isCurrent = y === year;
+                const isThisYear = y === now.getFullYear();
+                return (
+                  <button
+                    key={y}
+                    onClick={() => {
+                      setYear(y);
+                      setView("months");
+                    }}
+                    className={cx(
+                      gridCell,
+                      isCurrent
+                        ? "bg-indigo-600 text-white"
+                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700/60",
+                      isThisYear && !isCurrent && "ring-2 ring-indigo-400"
+                    )}
+                  >
+                    {y}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </Card>
 
         {/* Selected day detail */}
@@ -255,9 +333,7 @@ export default function Calendar() {
                     <p className="truncate text-sm font-medium text-slate-800 dark:text-slate-100">
                       {it.label}
                     </p>
-                    {it.detail && (
-                      <Pill color={it.color}>{it.detail}</Pill>
-                    )}
+                    {it.detail && <Pill color={it.color}>{it.detail}</Pill>}
                   </div>
                 </div>
               ))}
