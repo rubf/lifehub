@@ -18,10 +18,11 @@ Versión en vivo: https://rubf.github.io/lifehub/
 - **Finanzas**: ingresos, gastos, balance mensual y presupuestos por categoría.
 - **Metas**: objetivos medibles con progreso paso a paso.
 - **Diario**: un registro diario del estado de ánimo y notas personales.
-- **Calendario**: una vista mensual que reúne todo lo que tiene fecha (tareas, movimientos, entradas del diario y fechas límite de metas).
-- **Plantillas**: Estudiante, Profesional/Freelancer, Bienestar, Finanzas 50/30/20, Hogar, Productividad, Viaje, Emprendimiento y Aprendizaje.
+- **Calendario**: una vista mensual que reúne todo lo que tiene fecha (tareas, movimientos, entradas del diario y fechas límite de metas), con selectores rápidos de mes y año.
+- **Plantillas**: Estudiante, Profesional/Freelancer, Bienestar, Finanzas 50/30/20, Hogar, Productividad, Viaje, Emprendimiento y Aprendizaje. Cada sección explica qué añade una plantilla al aplicarla.
+- **Copia de seguridad**: exporta todos tus datos a un archivo CSV y vuelve a importarlos cuando quieras, para conservarlos o llevarlos a otro equipo.
 
-Tiene modo claro y oscuro, funciona bien en móvil y escritorio, y toda la información se guarda en el propio navegador (no se envía a ningún servidor).
+Tiene modo claro y oscuro, un diseño cuidado con detalles interactivos y efectos 3D sutiles, funciona bien en móvil y escritorio, y toda la información se guarda en el propio navegador (no se envía a ningún servidor). Por cierto, esconde algún pequeño guiño para sacarte una sonrisa mientras lo usas.
 
 ## Cómo ejecutarlo en tu computadora
 
@@ -60,11 +61,12 @@ El repositorio incluye un flujo de GitHub Actions que compila el proyecto y lo p
 ```
 src/
   App.tsx            Distribución general, navegación y cambio de vistas
+  PremiumGate.tsx    Detalle interactivo opcional que aparece durante el uso
   store.tsx          Estado global y guardado en localStorage
   types.ts           Tipos de datos del proyecto
   icons.tsx          Iconos en formato SVG
-  ui.tsx             Componentes de interfaz reutilizables
-  lib/               Utilidades, colores y definición de plantillas
+  ui.tsx             Componentes de interfaz reutilizables (incluye el efecto 3D)
+  lib/               Utilidades, colores, plantillas y exportación/importación CSV
   views/             Inicio, Tareas, Hábitos, Finanzas, Metas,
                      Diario, Calendario, Plantillas y Ajustes
 ```
@@ -75,4 +77,17 @@ La estructura inicial y buena parte de la implementación se desarrollaron con l
 
 ## Licencia
 
-Distribuido bajo la licencia MIT. Puedes usar, modificar y compartir el código libremente.
+Este proyecto NO es de código abierto. Se publica únicamente para que se pueda ver y usar.
+
+Está permitido:
+
+- Ver y consultar el código fuente.
+- Usar la aplicación (en la demo oficial o ejecutándola en local para uso personal).
+
+No está permitido (sin autorización por escrito del autor):
+
+- Usarlo con fines comerciales.
+- Modificarlo o crear trabajos derivados.
+- Redistribuirlo, publicarlo o desplegarlo en otros servidores, dominios o cuentas.
+
+Consulta el archivo [LICENSE](./LICENSE) para ver los términos completos. Todos los derechos reservados.
